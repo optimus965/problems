@@ -118,13 +118,50 @@ class solution {
         System.out.println(ans);
 
     }
+    public int gcd(int a,int b) {
+        return b == 0?a:gcd(b,a%b);
+    }
+    public int lcm(int a, int b) {
+        return (a*b)/gcd(a,b);
+    }
+    public void legendre(int a, int b) { // which allows us to tell whether the number n divides m!
+        List<Integer> list = this.prime2();
+        List<node> li = new ArrayList<>();
+        boolean[] array = new boolean[a + 1]; // prime factors for the given number
+        for(int i = 2;i <= a;i++){
+            if(!array[i]) {
+                    int count =0;
+                    int c = a;
+                    while(c > 1 ) {
+                        c = c/i;
+                        count = count + c;
+                    }
+                    li.add(new node(i,count));
+                    for (int j = i; j <= a; j = j + i) {
+                        array[j] = true;
+                    }
+            }
+        }
+        for(node c:li) {
+            System.out.println(c.number1 + "\t" + c.number2);
+        }
+    }
+    public void No_of_trailingZeroes(int n) {
+        int count = 0;
+        while(n > 0) {
+            n = n/5;
+            count = count + 5;
+        }
+        System.out.println(count);
+    }
 
 
 }
 public class basic_sums {
     public static void main(String[] args) {
         solution n =new solution();
-        n.prime2();
-        n.eulerPhi(36);
+       /* n.prime2();
+        n.eulerPhi(36);*/
+        n.No_of_trailingZeroes(200000);
     }
 }
