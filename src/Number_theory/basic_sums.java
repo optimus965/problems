@@ -155,7 +155,7 @@ class solution {
         System.out.println(count);
     }
 
-
+    
 }
 public class basic_sums {
     public static void main(String[] args) {
