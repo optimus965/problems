@@ -1,4 +1,18 @@
 package dynamic_programming;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+class Node {
+    int weight;
+    int price;
+    public Node(int weight, int price) {
+        this.weight = weight;
+        this.price = price;
+
+    }
+}
 class solution {
     public void Fibanocci(int n) {
         int[] array = new int[n + 1];
@@ -132,19 +146,75 @@ class solution {
     public void coin_Change_Permutation(int[] nums, int amount) {
         int[] dp = new int[amount + 1];
         dp[0] = 1;
-        for(int i = 1;i < amount + 1;i++) {
+        for(int i = 1;i < dp.length + 1;i++) {
             for(int coin:nums) {
                 if(i >= coin) {
                     dp[i] += dp[i-coin];
                 }
             }
         }
+        System.out.println(dp[amount]);
+    }
+    public void Knapsack_Zero_and_One(int[] weights, int[] prices,int amount) {
+        int[][] dp =new int[weights.length + 1][amount + 1];
+        for(int i = 1;i < dp.length;i++) {
+            for(int j = 1;j < dp[0].length;j++) {
+                int val = prices[i - 1];
+                int weight = weights[i - 1];
+                if(j >= weight) {
+                    dp[i][j] = Math.max(dp[i - 1][j],dp[i - 1][j - weight] + val);
+                }
+                else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+    }
+    public void Unbound_Knapsack(int[] weights,int[] prices,int amount) {
+        int[] dp = new int[amount + 1];
+        for(int i =1;i < dp.length;i++) {
+            int max = 0;
+            for(int j = 0;j < prices.length;j++) {
+                int value = prices[j];
+                int weight = weights[j];
+                if(weight <= i) {
+                    int last = i - weight;
+                    int lastI = dp[last];
+                    int sum = lastI + value;
+                    if(sum > max) {
+                        max = sum;
+                    }
+                }
+            }
+            dp[i] = max;
+        }
+        System.out.println(dp[amount]);
+    }
+    public void Fractional_Knapsack(int[] weights,int[] prices,int amount) {
+        List<Node> list = new ArrayList<>();
+        for(int i =0;i < weights.length;i++) {
+            list.add(new Node(prices[i],weights[i]));
+        }
+        list.sort((a, b) -> b.price / b.weight - a.price / a.weight);
+        double sum =0;
+        for (Node node : list) {
+            int weight = node.weight;
+            if (weight <= amount) {
+                sum = sum + node.price;
+                amount = amount - weight;
+            } else {
+                double fraction = (double) amount / (double) weight;
+                sum = sum + (fraction * node.price);
+                break;
+            }
+        }
+        System.out.println(sum);
     }
 }
 public class basic_dp {
     public static void main(String[] args) {
         solution n = new solution();
-
+        n.coin_Change_Combinations(new int[]{1,2,3,4},6);
 
     }
 
